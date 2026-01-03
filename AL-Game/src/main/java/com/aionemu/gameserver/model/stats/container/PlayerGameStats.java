@@ -17,6 +17,8 @@ import com.aionemu.gameserver.network.aion.serverpackets.S_STATUS;
 import com.aionemu.gameserver.taskmanager.tasks.PacketBroadcaster.BroadcastMode;
 import com.aionemu.gameserver.utils.PacketSendUtility;
 
+import static com.aionemu.gameserver.model.templates.item.WeaponType.BOW;
+
 public class PlayerGameStats extends CreatureGameStats<Player>
 {
 	private int cachedSpeed;
@@ -205,38 +207,46 @@ public class PlayerGameStats extends CreatureGameStats<Player>
 
 	@Override
 	public Stat2 getAttackRange() {
-		int base = 3000;
+		int base = 1500;
 		Equipment equipment = owner.getEquipment();
+		// user main hand
 		Item mainHandWeapon = equipment.getMainHandWeapon();
+		// user off hand
 		Item offHandWeapon = equipment.getOffHandWeapon();
-		if (mainHandWeapon != null) {
+		// only one weapon or 2H weapons = use main hand range
+		if (mainHandWeapon != null && offHandWeapon == null) {
 			base = mainHandWeapon.getItemTemplate().getWeaponStats().getAttackRange();
-			if (!mainHandWeapon.getItemTemplate().isTwoHandWeapon() && mainHandWeapon != null && offHandWeapon != null && offHandWeapon.getItemTemplate().getArmorType() != ArmorType.SHIELD) {
-				if (mainHandWeapon.getItemTemplate().getWeaponStats().getAttackRange() != offHandWeapon.getItemTemplate().getWeaponStats().getAttackRange()) {
-					if (mainHandWeapon.getItemTemplate().getWeaponType() == WeaponType.SWORD_1H && offHandWeapon.getItemTemplate().getWeaponType() == WeaponType.SWORD_1H) {
-						base = 3000;
-					} else if (mainHandWeapon.getItemTemplate().getWeaponType() == WeaponType.SWORD_1H && offHandWeapon.getItemTemplate().getWeaponType() == WeaponType.MACE_1H) {
-						base = 3000;
-					} else if (mainHandWeapon.getItemTemplate().getWeaponType() == WeaponType.SWORD_1H && offHandWeapon.getItemTemplate().getWeaponType() == WeaponType.DAGGER_1H) {
-						base = 3000;
-					} else if (mainHandWeapon.getItemTemplate().getWeaponType() == WeaponType.DAGGER_1H && offHandWeapon.getItemTemplate().getWeaponType() == WeaponType.SWORD_1H) {
-						base = 3000;
-					} else if (mainHandWeapon.getItemTemplate().getWeaponType() == WeaponType.DAGGER_1H && offHandWeapon.getItemTemplate().getWeaponType() == WeaponType.MACE_1H) {
-						base = 3000;
-					} else if (mainHandWeapon.getItemTemplate().getWeaponType() == WeaponType.DAGGER_1H && offHandWeapon.getItemTemplate().getWeaponType() == WeaponType.DAGGER_1H) {
-						base = 3000;
-					} else if (mainHandWeapon.getItemTemplate().getWeaponType() == WeaponType.MACE_1H && offHandWeapon.getItemTemplate().getWeaponType() == WeaponType.SWORD_1H) {
-						base = 3000;
-					} else if (mainHandWeapon.getItemTemplate().getWeaponType() == WeaponType.MACE_1H && offHandWeapon.getItemTemplate().getWeaponType() == WeaponType.MACE_1H) {
-						base = 3000;
-					} else if (mainHandWeapon.getItemTemplate().getWeaponType() == WeaponType.MACE_1H && offHandWeapon.getItemTemplate().getWeaponType() == WeaponType.DAGGER_1H) {
-						base = 3000;
-					} else {
-						if (mainHandWeapon != null && offHandWeapon != null && offHandWeapon.getItemTemplate().getArmorType() != ArmorType.SHIELD) {
-							base = mainHandWeapon.getItemTemplate().getWeaponStats().getAttackRange();
-						}
-					}
-				}
+		}
+		// both hand are equipped
+		else if (mainHandWeapon != null && offHandWeapon != null) {
+			// off hand is a shield = use main hand range
+			if (mainHandWeapon != null && equipment.isShieldEquipped()) {
+				base = mainHandWeapon.getItemTemplate().getWeaponStats().getAttackRange();
+				return getStat(StatEnum.ATTACK_RANGE, base);
+			}
+			// Bow, off hand is Arrow = use main hand range
+			if (equipment.getMainHandWeaponType() == BOW) {
+				base = mainHandWeapon.getItemTemplate().getWeaponStats().getAttackRange();
+				return getStat(StatEnum.ATTACK_RANGE, base);
+			}
+			// range from main hand
+			int mainHandWeaponRange = mainHandWeapon.getItemTemplate().getWeaponStats().getAttackRange();
+			// range from off hand
+			int offHandWeaponRange = offHandWeapon.getItemTemplate().getWeaponStats().getAttackRange();
+			// both on same range, so use main hand
+			if (mainHandWeaponRange == offHandWeaponRange) {
+				base = mainHandWeapon.getItemTemplate().getWeaponStats().getAttackRange();
+				return getStat(StatEnum.ATTACK_RANGE, base);
+			}
+			// main < off range = use the lowest range
+			else if (mainHandWeaponRange < offHandWeaponRange) {
+				base = mainHandWeapon.getItemTemplate().getWeaponStats().getAttackRange();
+				return getStat(StatEnum.ATTACK_RANGE, base);
+			}
+			// main > off range = use the lowest range
+			else if (mainHandWeaponRange > offHandWeaponRange) {
+				base = offHandWeapon.getItemTemplate().getWeaponStats().getAttackRange();
+				return getStat(StatEnum.ATTACK_RANGE, base);
 			}
 		}
 		return getStat(StatEnum.ATTACK_RANGE, base);
