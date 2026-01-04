@@ -402,7 +402,8 @@ public class AccountController {
 		account.setActivated((byte) 1);
 
 		if (AccountDAO.insertAccount(account)) {
-			return account;
+			// we need to reload the account after creation
+			return AccountDAO.getAccount(account.getId());
 		}
 		return null;
 	}
