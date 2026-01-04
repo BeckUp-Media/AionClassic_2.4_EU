@@ -20,10 +20,10 @@ For compile:
 - Simply use Ant and batch files, or install intelliJ IDEA, go to settings - plugins.
 - Install Ant.
 - Go to view, Tool Windows, activate Ant.
-- bind in build.xml files from Al-Commons, Al-Login, Al-Game.
+- bind in build.xml files from Al-Commons, Al-Login, Al-Game, AL-Chat.
 - open Ant on right side of IDE, open each Module and hit jar or dist.
 
-You can use this client:  (Untested)
+You can use this client:
 
 [AionClassic2.4_EU_Client](https://drive.google.com/file/d/1kJSihPt3v-jN7ROmBElsWYa1x7jnfus5/view?usp=drive_link)
 
@@ -32,5 +32,4 @@ Original source repo : https://github.com/MATTYOneInc/AionClassic_2.4
 <b>Info BeckUp.Media</b>
 
 - Geo files: [AionClassic2.4_EU_Geo](https://drive.google.com/file/d/14JsLOo1EiydU1uyvs42M3EiyI-IUtBeq/view?usp=sharing)
-- Chatserver source missing
 - I not tested the server, but im pretty sure that the server is buggy as hell. XD
