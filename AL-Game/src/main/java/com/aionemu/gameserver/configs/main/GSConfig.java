@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 public class GSConfig
 {
-	@Property(key = "gameserver.country.code", defaultValue = "1")
+	@Property(key = "gameserver.country.code", defaultValue = "2")
 	public static int SERVER_COUNTRY_CODE;
 	@Property(key = "gameserver.version.code", defaultValue = "1.2")
 	public static float SERVER_VERSION_CODE;
