@@ -9,6 +9,8 @@ Original based on Aion-Lightning.
 
 This is an Encom leak, sadness Encom has removed all @author tags. ;(
 
+I swapped from NA client to EU client, bcs of Gameguard -.-
+
 This repo is only here for save the files and reduce the chance that these files get selled for money.
 
 I did no fork bcs of nothing will happen inside the original src repo. Also here nothing will happen.
