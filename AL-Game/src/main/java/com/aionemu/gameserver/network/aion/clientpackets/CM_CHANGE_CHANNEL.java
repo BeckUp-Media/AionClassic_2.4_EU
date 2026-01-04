@@ -24,23 +24,28 @@ import com.aionemu.gameserver.services.teleport.TeleportService2;
 /**
  * Developer's note please dont remove
  * Duoc goi ra khi o trong instance va su dung tinh nang "change channel"
+ *
  * @author ATracer
  */
-public class CM_CHANGE_CHANNEL extends AionClientPacket {
+public class CM_CHANGE_CHANNEL extends AionClientPacket
+{
 
 	private int channel;
 
-	public CM_CHANGE_CHANNEL(int opcode, State state, State... restStates) {
+	public CM_CHANGE_CHANNEL(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		channel = readD();
 	}
 
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		Player activePlayer = getConnection().getActivePlayer();
 		TeleportService2.changeChannel(activePlayer, channel);
 	}

@@ -25,9 +25,12 @@ import com.aionemu.gameserver.services.legion.LegionService;
 /**
  * @author Simple modified cura
  */
-public class CM_LEGION_MODIFY_EMBLEM extends AionClientPacket {
+public class CM_LEGION_MODIFY_EMBLEM extends AionClientPacket
+{
 
-	/** Emblem related information **/
+	/**
+	 * Emblem related information
+	 **/
 	private int legionId;
 	private int emblemId;
 	private int red;
@@ -38,12 +41,14 @@ public class CM_LEGION_MODIFY_EMBLEM extends AionClientPacket {
 	/**
 	 * @param opcode
 	 */
-	public CM_LEGION_MODIFY_EMBLEM(int opcode, State state, State... restStates) {
+	public CM_LEGION_MODIFY_EMBLEM(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		legionId = readD();
 		emblemId = readC();
 		emblemType = (readC() == LegionEmblemType.DEFAULT.getValue()) ? LegionEmblemType.DEFAULT : LegionEmblemType.CUSTOM;
@@ -54,10 +59,12 @@ public class CM_LEGION_MODIFY_EMBLEM extends AionClientPacket {
 	}
 
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		Player activePlayer = getConnection().getActivePlayer();
 
-		if (activePlayer.isLegionMember())
+		if (activePlayer.isLegionMember()) {
 			LegionService.getInstance().storeLegionEmblem(activePlayer, legionId, emblemId, red, green, blue, emblemType);
+		}
 	}
 }

@@ -19,28 +19,33 @@ import com.aionemu.gameserver.services.legion.LegionService;
 /**
  * @author cura
  */
-public class CM_LEGION_SEND_EMBLEM_INFO extends AionClientPacket {
+public class CM_LEGION_SEND_EMBLEM_INFO extends AionClientPacket
+{
 
 	private int legionId;
 
-	public CM_LEGION_SEND_EMBLEM_INFO(int opcode, State state, State... restStates) {
+	public CM_LEGION_SEND_EMBLEM_INFO(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		legionId = readD();
 	}
 
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		Legion legion = LegionService.getInstance().getLegion(legionId);
 		if (legion != null) {
 			LegionEmblem legionEmblem = legion.getLegionEmblem();
-			if (legionEmblem.getCustomEmblemData() == null)
+			if (legionEmblem.getCustomEmblemData() == null) {
 				return;
+			}
 			LegionService.getInstance().sendEmblemData(getConnection().getActivePlayer(), legionEmblem, legionId,
-				legion.getLegionName());
+					legion.getLegionName());
 		}
 	}
 }

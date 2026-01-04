@@ -13,26 +13,29 @@ import com.aionemu.gameserver.utils.PacketSendUtility;
  */
 public class CM_FRIEND_EDIT extends AionClientPacket
 {
-    private String playerName;
-    private String notice;
-	
-    public CM_FRIEND_EDIT(int opcode, State state, State... restStates) {
-        super(opcode, state, restStates);
-    }
-	
-    @Override
-    protected void readImpl() {
-        playerName = readS();
-        notice = readS();
-    }
-	
-    @Override
-    protected void runImpl() {
-        Player activePlayer = getConnection().getActivePlayer();
-        Friend friend = activePlayer.getFriendList().getFriend(playerName);
-        if (friend != null) {
-            PacketSendUtility.sendPacket(activePlayer, new S_BUDDY_RESULT(playerName, S_BUDDY_RESULT.TARGET_NOTE));
-            SocialService.setFriendNote(activePlayer, friend, notice);
-        }
-    }
+	private String playerName;
+	private String notice;
+
+	public CM_FRIEND_EDIT(int opcode, State state, State... restStates)
+	{
+		super(opcode, state, restStates);
+	}
+
+	@Override
+	protected void readImpl()
+	{
+		playerName = readS();
+		notice = readS();
+	}
+
+	@Override
+	protected void runImpl()
+	{
+		Player activePlayer = getConnection().getActivePlayer();
+		Friend friend = activePlayer.getFriendList().getFriend(playerName);
+		if (friend != null) {
+			PacketSendUtility.sendPacket(activePlayer, new S_BUDDY_RESULT(playerName, S_BUDDY_RESULT.TARGET_NOTE));
+			SocialService.setFriendNote(activePlayer, friend, notice);
+		}
+	}
 }

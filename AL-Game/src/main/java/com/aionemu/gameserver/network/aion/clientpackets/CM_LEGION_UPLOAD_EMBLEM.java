@@ -23,28 +23,34 @@ import com.aionemu.gameserver.services.legion.LegionService;
 /**
  * @author Simple
  */
-public class CM_LEGION_UPLOAD_EMBLEM extends AionClientPacket {
+public class CM_LEGION_UPLOAD_EMBLEM extends AionClientPacket
+{
 
-	/** Emblem related information **/
+	/**
+	 * Emblem related information
+	 **/
 	private int size;
 	private byte[] data;
 
 	/**
 	 * @param opcode
 	 */
-	public CM_LEGION_UPLOAD_EMBLEM(int opcode, State state, State... restStates) {
+	public CM_LEGION_UPLOAD_EMBLEM(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		size = readD();
 		data = new byte[size];
 		data = readB(size);
 	}
 
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		if (data != null && data.length > 0) {
 			LegionService.getInstance().uploadEmblemData(getConnection().getActivePlayer(), size, data);
 		}

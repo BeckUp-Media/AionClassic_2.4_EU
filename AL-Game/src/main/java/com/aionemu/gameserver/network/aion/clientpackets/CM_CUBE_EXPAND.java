@@ -17,30 +17,36 @@ import com.aionemu.gameserver.services.CubeExpandService;
 
 public class CM_CUBE_EXPAND extends AionClientPacket
 {
-    int type;
-	
-    public CM_CUBE_EXPAND(int opcode, State state, State... restStates) {
-        super(opcode, state, restStates);
-    }
-	
-    @Override
-    protected void readImpl() {
-        type = readC();
-    }
-	
-    @Override
-    protected void runImpl() {
+	int type;
+
+	public CM_CUBE_EXPAND(int opcode, State state, State... restStates)
+	{
+		super(opcode, state, restStates);
+	}
+
+	@Override
+	protected void readImpl()
+	{
+		type = readC();
+	}
+
+	@Override
+	protected void runImpl()
+	{
 		final Player activePlayer = getConnection().getActivePlayer();
 		if (activePlayer == null || !activePlayer.isSpawned()) {
-            return;
-        } if (activePlayer.isProtectionActive()) {
-            activePlayer.getController().stopProtectionActiveTask();
-        } if (activePlayer.isCasting()) {
-            activePlayer.getController().cancelCurrentSkill();
-        } switch (this.type) {
-            case 0:
-                CubeExpandService.expansionKinah(activePlayer);
-            break;
-        }
-    }
+			return;
+		}
+		if (activePlayer.isProtectionActive()) {
+			activePlayer.getController().stopProtectionActiveTask();
+		}
+		if (activePlayer.isCasting()) {
+			activePlayer.getController().cancelCurrentSkill();
+		}
+		switch (this.type) {
+			case 0:
+				CubeExpandService.expansionKinah(activePlayer);
+				break;
+		}
+	}
 }

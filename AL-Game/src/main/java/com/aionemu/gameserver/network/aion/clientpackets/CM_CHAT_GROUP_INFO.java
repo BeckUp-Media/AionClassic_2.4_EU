@@ -11,24 +11,28 @@ import com.aionemu.gameserver.world.World;
 /**
  * @author ginho1
  */
-public class CM_CHAT_GROUP_INFO extends AionClientPacket {
+public class CM_CHAT_GROUP_INFO extends AionClientPacket
+{
 
 	private String playerName;
 	@SuppressWarnings("unused")
 	private int unk;
 
-	public CM_CHAT_GROUP_INFO(int opcode, State state, State... restStates) {
+	public CM_CHAT_GROUP_INFO(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		playerName = readS();
 		unk = readD();
 	}
 
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		Player player = getConnection().getActivePlayer();
 		Player target = World.getInstance().findPlayer(playerName);
 		if (target == null) {

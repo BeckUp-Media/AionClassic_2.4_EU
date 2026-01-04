@@ -9,15 +9,18 @@ import com.aionemu.gameserver.network.aion.AionConnection;
 
 public class CM_E0_UNK extends AionClientPacket
 {
-    public CM_E0_UNK(int opcode, AionConnection.State state, AionConnection.State... restStates) {
-        super(opcode, state, restStates);
-    }
+	public CM_E0_UNK(int opcode, AionConnection.State state, AionConnection.State... restStates)
+	{
+		super(opcode, state, restStates);
+	}
 
-    @Override
-    protected void readImpl() {
-    }
+	@Override
+	protected void readImpl()
+	{
+	}
 
-    @Override
-    protected void runImpl() {
-    }
+	@Override
+	protected void runImpl()
+	{
+	}
 }

@@ -20,35 +20,41 @@ import org.slf4j.LoggerFactory;
 
 public class CM_ENCHANTMENT_EXTRACTION extends AionClientPacket
 {
-    Logger log = LoggerFactory.getLogger(CM_ENCHANMENT_STONES.class);
-	
-    private int itemId;
-	
-    public CM_ENCHANTMENT_EXTRACTION(int opcode, AionConnection.State state, AionConnection.State... restStates) {
-        super(opcode, state, restStates);
-    }
-	
-    @Override
-    protected void readImpl() {
-        itemId = readD();
-    }
-	
-    @Override
-    protected void runImpl() {
-        final Player player = getConnection().getActivePlayer();
-        if (player == null || !player.isSpawned()) {
-            return;
-        } if (player.isProtectionActive()) {
-            player.getController().stopProtectionActiveTask();
-        } if (player.isCasting()) {
-            player.getController().cancelCurrentSkill();
-        } if (player.getController().isInShutdownProgress()) {
-            return;
-        }
-        Item item = player.getInventory().getItemByObjId(itemId);
-        ExtractAction action = new ExtractAction();
-        if (action.canAct(player, item, item)) {
-            action.act(player, item, item);
-        }
-    }
+	Logger log = LoggerFactory.getLogger(C_ENCHANT_ITEM.class);
+
+	private int itemId;
+
+	public CM_ENCHANTMENT_EXTRACTION(int opcode, AionConnection.State state, AionConnection.State... restStates)
+	{
+		super(opcode, state, restStates);
+	}
+
+	@Override
+	protected void readImpl()
+	{
+		itemId = readD();
+	}
+
+	@Override
+	protected void runImpl()
+	{
+		final Player player = getConnection().getActivePlayer();
+		if (player == null || !player.isSpawned()) {
+			return;
+		}
+		if (player.isProtectionActive()) {
+			player.getController().stopProtectionActiveTask();
+		}
+		if (player.isCasting()) {
+			player.getController().cancelCurrentSkill();
+		}
+		if (player.getController().isInShutdownProgress()) {
+			return;
+		}
+		Item item = player.getInventory().getItemByObjId(itemId);
+		ExtractAction action = new ExtractAction();
+		if (action.canAct(player, item, item)) {
+			action.act(player, item, item);
+		}
+	}
 }

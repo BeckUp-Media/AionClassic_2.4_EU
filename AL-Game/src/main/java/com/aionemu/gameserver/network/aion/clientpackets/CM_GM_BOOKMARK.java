@@ -15,39 +15,46 @@ public class CM_GM_BOOKMARK extends AionClientPacket
 	private GmCommands command;
 	private String playerName;
 	private String[] parts;
-	public CM_GM_BOOKMARK(int opcode, State state, State... restStates) {
+
+	public CM_GM_BOOKMARK(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
-	
+
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		playerName = readS();
-        parts = playerName.split(" ");
-        command = GmCommands.getValue(parts[0]);
-        playerName = parts[1];
+		parts = playerName.split(" ");
+		command = GmCommands.getValue(parts[0]);
+		playerName = parts[1];
 	}
-	
+
 	@Override
-    protected void runImpl() {
-        Player admin = getConnection().getActivePlayer();
-        Player player = World.getInstance().findPlayer(Util.convertName(playerName));
+	protected void runImpl()
+	{
+		Player admin = getConnection().getActivePlayer();
+		Player player = World.getInstance().findPlayer(Util.convertName(playerName));
 		if (admin == null) {
 			return;
-		} if (admin.getAccessLevel() < AdminConfig.GM_PANEL) {
-			 return;
-		} if (player == null) {
-            PacketSendUtility.sendMessage(admin, "Could not find an online player with that name.");
-            return;
-        } switch (command) {
-            case GM_DIALOG_TELEPORTTO:
-                TeleportService2.teleportTo(admin, player.getWorldId(), player.getX(), player.getY(), player.getZ());
-            break;
+		}
+		if (admin.getAccessLevel() < AdminConfig.GM_PANEL) {
+			return;
+		}
+		if (player == null) {
+			PacketSendUtility.sendMessage(admin, "Could not find an online player with that name.");
+			return;
+		}
+		switch (command) {
+			case GM_DIALOG_TELEPORTTO:
+				TeleportService2.teleportTo(admin, player.getWorldId(), player.getX(), player.getY(), player.getZ());
+				break;
 			case GM_DIALOG_RECALL:
 				TeleportService2.teleportTo(player, admin.getWorldId(), admin.getX(), admin.getY(), admin.getZ());
-			break;
+				break;
 			//
 			case GM_DIALOG:
-            case GM_DIALOG_POS:
+			case GM_DIALOG_POS:
 			case GM_DIALOG_MEMO:
 			case GM_DIALOG_BOOKMARK:
 			case GM_DIALOG_INVENTORY:
@@ -70,10 +77,10 @@ public class CM_GM_BOOKMARK extends AionClientPacket
 			case GM_DIALOG_OPTION:
 			case GM_DIALOG_BUILDER_CONTROL:
 			case GM_DIALOG_BUILDER_COMMAND:
-            break;
-            default:
+				break;
+			default:
 				PacketSendUtility.sendMessage(admin, "Invalid command: " + command.name());
-            break;
-        }
+				break;
+		}
 	}
 }

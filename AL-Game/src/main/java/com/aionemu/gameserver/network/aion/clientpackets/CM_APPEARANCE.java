@@ -23,7 +23,8 @@ import com.aionemu.gameserver.utils.PacketSendUtility;
 /**
  * @author xTz
  */
-public class CM_APPEARANCE extends AionClientPacket {
+public class CM_APPEARANCE extends AionClientPacket
+{
 
 	private int type;
 
@@ -31,12 +32,14 @@ public class CM_APPEARANCE extends AionClientPacket {
 
 	private String name;
 
-	public CM_APPEARANCE(int opcode, State state, State... restStates) {
+	public CM_APPEARANCE(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		type = readC();
 		readC();
 		readH();
@@ -51,7 +54,8 @@ public class CM_APPEARANCE extends AionClientPacket {
 	}
 
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		final Player player = getConnection().getActivePlayer();
 
 		switch (type) {

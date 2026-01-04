@@ -28,11 +28,13 @@ import com.aionemu.gameserver.services.legion.LegionService;
  * @author Simple
  * @modified cura
  */
-public class CM_LEGION_SEND_EMBLEM extends AionClientPacket {
+public class CM_LEGION_SEND_EMBLEM extends AionClientPacket
+{
 
 	private int legionId;
 
-	public CM_LEGION_SEND_EMBLEM(int opcode, State state, State... restStates) {
+	public CM_LEGION_SEND_EMBLEM(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
@@ -40,7 +42,8 @@ public class CM_LEGION_SEND_EMBLEM extends AionClientPacket {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		legionId = readD();
 	}
 
@@ -48,18 +51,18 @@ public class CM_LEGION_SEND_EMBLEM extends AionClientPacket {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		Legion legion = LegionService.getInstance().getLegion(legionId);
 
 		if (legion != null) {
 			LegionEmblem legionEmblem = legion.getLegionEmblem();
 			if (legionEmblem.getEmblemType() == LegionEmblemType.DEFAULT) {
 				sendPacket(new S_GUILD_EMBLEM_IMG_BEGIN(legionId, legionEmblem.getEmblemId(), legionEmblem.getColor_r(),
-					legionEmblem.getColor_g(), legionEmblem.getColor_b(), legion.getLegionName(), legionEmblem.getEmblemType(), 0));
-			}
-			else {
+						legionEmblem.getColor_g(), legionEmblem.getColor_b(), legion.getLegionName(), legionEmblem.getEmblemType(), 0));
+			} else {
 				LegionService.getInstance().sendEmblemData(getConnection().getActivePlayer(), legionEmblem, legionId,
-				legion.getLegionName());
+						legion.getLegionName());
 			}
 		}
 	}

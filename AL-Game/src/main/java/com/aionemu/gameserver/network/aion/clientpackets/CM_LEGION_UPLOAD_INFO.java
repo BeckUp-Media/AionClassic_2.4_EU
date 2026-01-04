@@ -25,9 +25,12 @@ import com.aionemu.gameserver.services.legion.LegionService;
 /**
  * @author Simple modified cura
  */
-public class CM_LEGION_UPLOAD_INFO extends AionClientPacket {
+public class CM_LEGION_UPLOAD_INFO extends AionClientPacket
+{
 
-	/** Emblem related information **/
+	/**
+	 * Emblem related information
+	 **/
 	private int totalSize;
 	private int red;
 	private int green;
@@ -36,12 +39,14 @@ public class CM_LEGION_UPLOAD_INFO extends AionClientPacket {
 	/**
 	 * @param opcode
 	 */
-	public CM_LEGION_UPLOAD_INFO(int opcode, State state, State... restStates) {
+	public CM_LEGION_UPLOAD_INFO(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		totalSize = readD();
 		readC(); // 0xFF
 		red = readC();
@@ -50,7 +55,8 @@ public class CM_LEGION_UPLOAD_INFO extends AionClientPacket {
 	}
 
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		final Player activePlayer = getConnection().getActivePlayer();
 
 		LegionService.getInstance().uploadEmblemInfo(activePlayer, totalSize, red, green, blue, LegionEmblemType.CUSTOM);

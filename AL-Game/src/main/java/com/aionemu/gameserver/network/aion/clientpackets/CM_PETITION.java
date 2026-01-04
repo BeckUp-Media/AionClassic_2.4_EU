@@ -27,24 +27,26 @@ import com.aionemu.gameserver.services.PetitionService;
 /**
  * @author zdead
  */
-public class CM_PETITION extends AionClientPacket {
+public class CM_PETITION extends AionClientPacket
+{
 
 	private int action;
 	private String title = "";
 	private String text = "";
 	private String additionalData = "";
 
-	public CM_PETITION(int opcode, State state, State... restStates) {
+	public CM_PETITION(int opcode, State state, State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		action = readH();
 		if (action == 2) {
 			readD();
-		}
-		else {
+		} else {
 			String data = readS();
 			String[] dataArr = data.split("/", 3);
 			title = dataArr[0];
@@ -54,9 +56,10 @@ public class CM_PETITION extends AionClientPacket {
 	}
 
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		Player player = getConnection().getActivePlayer();
-		int playerObjId =  player.getObjectId();
+		int playerObjId = player.getObjectId();
 		if (action == 2) {
 			if (PetitionService.getInstance().hasRegisteredPetition(playerObjId)) {
 				int petitionId = PetitionService.getInstance().getPetition(playerObjId).getPetitionId();
@@ -70,7 +73,7 @@ public class CM_PETITION extends AionClientPacket {
 
 		if (!PetitionService.getInstance().hasRegisteredPetition(playerObjId)) {
 			Petition petition = PetitionService.getInstance().registerPetition(player, action,
-				title, text, additionalData);
+					title, text, additionalData);
 			sendPacket(new S_PETITION_STATUS(petition));
 		}
 	}

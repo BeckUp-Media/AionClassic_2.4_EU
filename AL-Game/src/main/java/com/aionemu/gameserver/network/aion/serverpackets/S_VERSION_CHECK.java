@@ -24,7 +24,7 @@ public class S_VERSION_CHECK extends AionServerPacket
 	private final int characterFactionsMode;
 	private final int characterCreateMode;
 	private static final Logger log = LoggerFactory.getLogger(S_VERSION_CHECK.class);
-	
+
 	public S_VERSION_CHECK(int version) {
 		this.version = version;
 		if (MembershipConfig.CHARACTER_ADDITIONAL_ENABLE != 10 && MembershipConfig.CHARACTER_ADDITIONAL_COUNT > GSConfig.CHARACTER_LIMIT_COUNT) {
@@ -43,7 +43,7 @@ public class S_VERSION_CHECK extends AionServerPacket
 			characterCreateMode = GSConfig.CHARACTER_FACTION_LIMITATION_MODE * 0x04;
 		}
 	}
-	
+
 	@Override
 	protected void writeImpl(AionConnection con) {
 		//Aion classic = 192
@@ -63,7 +63,7 @@ public class S_VERSION_CHECK extends AionServerPacket
 		writeC(GSConfig.SERVER_COUNTRY_CODE);
 		writeC(0);
 		int i = this.characterLimitCount * 16 | this.characterFactionsMode;
-		writeC(96);
+		writeC(128);
 		writeD((int) (Calendar.getInstance().getTimeInMillis() / 1000));
 
 
@@ -71,6 +71,10 @@ public class S_VERSION_CHECK extends AionServerPacket
 		//for... chat servers?
 		{
 			writeC(0x00);//spacer
+			writeD(921345);//unk
+			writeH(511);//unk
+			writeC(0);//unk
+			writeC(0);//unk
 			// if the correct ip is not sent it will not work
 			writeB(IPConfig.getDefaultAddress());
 			writeH(ChatService.getPort());

@@ -17,12 +17,14 @@ public class CM_GROUP_DATA_EXCHANGE extends AionClientPacket
 	private int dataSize;
 	private byte[] data;
 
-	public CM_GROUP_DATA_EXCHANGE(int opcode, AionConnection.State state, AionConnection.State... restStates) {
+	public CM_GROUP_DATA_EXCHANGE(int opcode, AionConnection.State state, AionConnection.State... restStates)
+	{
 		super(opcode, state, restStates);
 	}
 
 	@Override
-	protected void readImpl() {
+	protected void readImpl()
+	{
 		action = readC();
 
 		switch (action) {
@@ -35,12 +37,14 @@ public class CM_GROUP_DATA_EXCHANGE extends AionClientPacket
 				dataSize = readD();
 				break;
 		}
-		if (dataSize > 0 && dataSize <= 5086)
+		if (dataSize > 0 && dataSize <= 5086) {
 			data = readB(dataSize);
+		}
 	}
 
 	@Override
-	protected void runImpl() {
+	protected void runImpl()
+	{
 		Player player = getConnection().getActivePlayer();
 		if (player == null || data == null) {
 			return;
