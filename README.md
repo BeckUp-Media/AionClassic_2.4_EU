@@ -25,7 +25,7 @@ For compile:
 
 You can use this client:
 
-[AionClassic2.4_EU_Client](https://drive.google.com/file/d/1kJSihPt3v-jN7ROmBElsWYa1x7jnfus5/view?usp=drive_link)
+[AionClassic2.4_EU_Client](https://drive.google.com/file/d/1dM2UGHF04cJdgIB42j4LYKIkcOuAg8Lr/view?usp=drive_link)
 
 Original source repo : https://github.com/MATTYOneInc/AionClassic_2.4
 <br></br>
